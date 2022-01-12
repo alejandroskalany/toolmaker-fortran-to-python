@@ -1,0 +1,225 @@
+Enter the name of the service company:
+Schlumberger
+Enter the tool name and size, such as 'ARC825':
+ARC825
+Choose your length scale (in - cm - mm):
+in
+Are all transmitter and receiver antennas identical? <YN>
+Y
+Enter the antenna-recess diameter, the coil diameter and the collar diameter:
+Enter 0.0 for unknown antenna recess and coil diameters.
+0.0 0.0 8.25
+Enter the number of antenna-coil windings (enter 0, if not known):
+8
+How many transmitters does your tool have?
+5
+For transmitter 1, enter the axial position:
+16.0
+For transmitter 2, enter the axial position:
+-22.0
+For transmitter 3, enter the axial position:
+28.0
+For transmitter 4, enter the axial position:
+-34.0
+For transmitter 5, enter the axial position:
+40.0
+How many receivers does your tool have?
+2
+For receiver 1, enter the axial position:
+3.0
+For receiver 2, enter the axial position:
+-3.0
+How many operating frequencies does your tool have?
+2
+Enter the operating frequency 1 (in kHz)
+          and the three dielectric-estimate coefficients:
+400.0 280.0 0.46 5.0
+Enter the operating frequency 2 (in kHz)
+          and the three dielectric-estimate coefficients:
+2000.0 108.5 0.35 5.0
+10 single-transmitter, raw-measurement modes:
+Indices for mode, T, R1, R2, Freq
+ Mode    T   R1   R2 Freq
+    1    1    1    2    1
+    2    2    2    1    1
+    3    3    1    2    1
+    4    4    2    1    1
+    5    5    1    2    1
+    6    1    1    2    2
+    7    2    2    1    2
+    8    3    1    2    2
+    9    4    2    1    2
+   10    5    1    2    2
+How many borehole-compensated output modes does the tool have?
+10
+Enter the name of the phase-shift channel for output mode  1:
+  (maximal eight characters)
+PS16L
+Enter the name of the attenuation channel for output mode  1:
+  (maximal eight characters)
+AT16L
+Output mode  1 combines how many single-transmitter modes?
+3
+For output mode  1 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+1 0.75
+For output mode  1 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+2 0.5
+For output mode  1 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+3 -0.25
+Enter the name of the phase-shift channel for output mode  2:
+  (maximal eight characters)
+PS22L
+Enter the name of the attenuation channel for output mode  2:
+  (maximal eight characters)
+AT22L
+Output mode  2 combines how many single-transmitter modes?
+3
+For output mode  2 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+1 0.25
+For output mode  2 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+2 0.5
+For output mode  2 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+3 0.25
+Enter the name of the phase-shift channel for output mode  3:
+  (maximal eight characters)
+PS28L
+Enter the name of the attenuation channel for output mode  3:
+  (maximal eight characters)
+AT28L
+Output mode  3 combines how many single-transmitter modes?
+3
+For output mode  3 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+2 0.25
+For output mode  3 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+3 0.5
+For output mode  3 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+4 0.25
+Enter the name of the phase-shift channel for output mode  4:
+  (maximal eight characters)
+PS34L
+Enter the name of the attenuation channel for output mode  4:
+  (maximal eight characters)
+AT34L
+Output mode  4 combines how many single-transmitter modes?
+3
+For output mode  4 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+3 0.25
+For output mode  4 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+4 0.5
+For output mode  4 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+5 0.25
+Enter the name of the phase-shift channel for output mode  5:
+  (maximal eight characters)
+PS40L
+Enter the name of the attenuation channel for output mode  5:
+  (maximal eight characters)
+AT40L
+Output mode  5 combines how many single-transmitter modes?
+3
+For output mode  5 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+3 -0.25
+For output mode  5 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+4 0.5
+For output mode  5 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+5 0.75
+Enter the name of the phase-shift channel for output mode  6:
+  (maximal eight characters)
+PS16H
+Enter the name of the attenuation channel for output mode  6:
+  (maximal eight characters)
+AT16H
+Output mode  6 combines how many single-transmitter modes?
+3
+For output mode  6 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+6 0.75
+For output mode  6 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+7 0.5
+For output mode  6 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+8 -0.25
+Enter the name of the phase-shift channel for output mode  7:
+  (maximal eight characters)
+PS22H
+Enter the name of the attenuation channel for output mode  7:
+  (maximal eight characters)
+AT22H
+Output mode  7 combines how many single-transmitter modes?
+3
+For output mode  7 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+6 0.25
+For output mode  7 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+7 0.5
+For output mode  7 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+8 0.25
+Enter the name of the phase-shift channel for output mode  8:
+  (maximal eight characters)
+PS28H
+Enter the name of the attenuation channel for output mode  8:
+  (maximal eight characters)
+AT28H
+Output mode  8 combines how many single-transmitter modes?
+3
+For output mode  8 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+7 0.25
+For output mode  8 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+8 0.5
+For output mode  8 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+9 0.25
+Enter the name of the phase-shift channel for output mode  9:
+  (maximal eight characters)
+PS34H
+Enter the name of the attenuation channel for output mode  9:
+  (maximal eight characters)
+AT34H
+Output mode  9 combines how many single-transmitter modes?
+3
+For output mode  9 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+8 0.25
+For output mode  9 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+9 0.5
+For output mode  9 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+10 0.25
+Enter the name of the phase-shift channel for output mode 10:
+  (maximal eight characters)
+PS40H
+Enter the name of the attenuation channel for output mode 10:
+  (maximal eight characters)
+AT40H
+Output mode 10 combines how many single-transmitter modes?
+3
+For output mode 10 enter the index of single-transmitter mode  1
+                       and the borehole-compensation weight:
+8 -0.25
+For output mode 10 enter the index of single-transmitter mode  2
+                       and the borehole-compensation weight:
+9 0.5
+For output mode 10 enter the index of single-transmitter mode  3
+                       and the borehole-compensation weight:
+10 0.75
+That's all, folks!
