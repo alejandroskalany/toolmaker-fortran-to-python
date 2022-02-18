@@ -14,7 +14,7 @@
 #   by a single, complex-valued output mode.
 #       1.1 written by Martin G. Luling, Paris,  4 May 2021.
 #   Version 1.2 corrects the default recess and coil diameters, which previously
-#   were chose at only half of their correct value.
+#   were chosen at only half of their correct value.
 #       1.2 written by Martin G. Luling, Paris, 18 May 2021.
 # ==============================================================================
 
@@ -48,13 +48,13 @@ EPS = [[0.0] * 3] * NFMAX
 BHC = [[0.0] * 3] * NFMAX
 
 
-MM = [ [0] * NMMAX for i in range(4)]
-MBHC  = [ [0] * (NMMAX + 1) for i in range(NOMAX)]
+MM = [[0] * NMMAX for i in range(4)]
+MBHC = [[0] * (NMMAX + 1) for i in range(NOMAX)]
 NTT = [0] * NTMAX
 NTR = [0] * NRMAX
 
 I = 0
-IT = 0
+it = 0
 J = 0
 JR = 0
 KF = 0
@@ -101,12 +101,15 @@ str41 = 'That''s all, folks!'
 CR = '\n'
 
 # ==============================================================================
+
+
 def tool_description():
     """
     :param: none
     :return: none
     """
     global R1T, R2T, R3T
+    global R1R, R2R, R3R
 
     # Read the file-header information
     header1 = ''
@@ -181,8 +184,9 @@ def tool_description():
     int_nr = int(NR)
 
     #   Read all receiver information:
-    for jr in range(0, int_nr):
-        ZR[it] = input('For receiver ' + str(jr + 1) + ' enter the axial position: ')        # str14
+    for it in range(0, int_nr):
+        jstr = input('For receiver ' + str(it + 1) + ' enter the axial position: ')        # str14
+        ZR[it] = float(jstr)
         if yn.lower() == 'y':
             R1R[it] = R1R[0]
             R2R[it] = R2R[0]
@@ -238,7 +242,7 @@ def tool_description():
         int_nm = int(NM)
 
         for lm in range(0, int_nm):
-            print('For measurement mode ' + lm)
+            print('For measurement mode ' + str(lm))
             istr = input('Enter the transmitter index :')
             MM[lm][0] = int(istr)
             istr = input('Enter the near receiver index :')
@@ -253,10 +257,10 @@ def tool_description():
     int_no = int(istr)
 
     for mo in range(0, int_no):
-        mstr = input('Output mode ' + str(mo) + ' combines how many single-transmitter modes? :')
-        MBHC[0][mo] = int(istr)
+        mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
+        MBHC[0][mo] = int(mstr)
         for lm in range(0, MBHC[0][mo]):
-            print('For output mode ' + str(mo) + ' : ' + str(lm))
+            print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
             istr = input('Enter the index of single-transmitter mode : ')
             MBHC[lm + 1][mo] = int(istr)
             istr = input('Enter the borehole-compensation weight: ')
