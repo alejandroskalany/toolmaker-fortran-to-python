@@ -47,9 +47,9 @@ FREQ = [0.0] * NFMAX
 EPS = [[0.0] * 3] * NFMAX
 BHC = [[0.0] * 3] * NFMAX
 
-
-MM = [[0] * NMMAX for i in range(4)]
-MBHC = [[0] * (NMMAX + 1) for i in range(NOMAX)]
+# there was a declaration error for MM and MBHC (PS)
+MM = [[0] * NMMAX] * 10
+MBHC = [[0] * (NMMAX + 1)] * 10
 NTT = [0] * NTMAX
 NTR = [0] * NRMAX
 
@@ -214,7 +214,7 @@ def tool_description():
     int_nf = int(NF)
 
     for kf in range(0, int_nf):
-        FREQ[kf] = int(input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): '))
+        FREQ[kf] = input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): ')
         EPS[kf][0] = input('Enter the dielectric-estimate coefficient 1 :')
         EPS[kf][1] = input('Enter the dielectric-estimate coefficient 2 :')
         EPS[kf][2] = input('Enter the dielectric-estimate coefficient 3 :')
