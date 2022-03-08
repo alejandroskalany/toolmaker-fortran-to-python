@@ -54,7 +54,7 @@ NTT = [0] * NTMAX
 NTR = [0] * NRMAX
 
 I = 0
-it = 0
+#it = 0
 J = 0
 JR = 0
 KF = 0
@@ -214,7 +214,7 @@ def tool_description():
     int_nf = int(NF)
 
     for kf in range(0, int_nf):
-        FREQ[kf] = (int)(input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): '))
+        FREQ[kf] = int(input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): '))
         EPS[kf][0] = input('Enter the dielectric-estimate coefficient 1 :')
         EPS[kf][1] = input('Enter the dielectric-estimate coefficient 2 :')
         EPS[kf][2] = input('Enter the dielectric-estimate coefficient 3 :')
@@ -226,8 +226,9 @@ def tool_description():
 
         for kf in range(0, int_nf):
             for it in range(0, int_nt):
-
-                MM[it + (int_nt * kf)][1] = it
+                q = it + (int_nt * kf)
+                print(q)
+                MM[q][1] = it
                 if ZT[it] > 0.0:
                     MM[it + (int_nt * kf)][2] = 1
                     MM[it + (int_nt * kf)][3] = 2
@@ -236,7 +237,7 @@ def tool_description():
                     MM[it + (int_nt * kf)][3] = 1
 
                 MM[it + (int_nt * kf)][4] = kf
-                print(it + (int_nt * kf), MM[it + (int_nt * kf)][0], MM[it + (int_nt * kf)][1], MM[it + (int_nt * kf)][2], MM[it + (int_nt * kf)][3])
+                #print(it + (int_nt * kf), MM[it + (int_nt * kf)][0], MM[it + (int_nt * kf)][1], MM[it + (int_nt * kf)][2], MM[it + (int_nt * kf)][3])
     else:
         NM = input('How many single-transmitter-measurement modes does the tool have? :')    # str23
         int_nm = int(NM)
