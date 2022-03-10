@@ -85,6 +85,7 @@ str24 = 'For measurement mode enter the transmitter index, the near and far rece
 str25 = 'How many borehole-compensated output modes does the tool have?'
 str26 = 'Output mode combines how many single-transmitter modes?'
 str27 = 'For output mode enter the index of single-transmitter mode and the borehole-compensation weight:'
+str28 = 'Enter the name of the phase-shift channel for output mode  1: (maximal eight characters)'
 str32 = 'Sonde description from 2016 SPWLA catalogue by No-Hidden-Pay 2021.'
 str41 = 'That''s all, folks!'
 
@@ -227,7 +228,7 @@ def tool_description():
         for kf in range(0, int_nf):
             for it in range(0, int_nt):
                 q = it + (int_nt * kf)
-                print(q)
+                #print(q)
                 MM[q][1] = it
                 if ZT[it] > 0.0:
                     MM[it + (int_nt * kf)][2] = 1
@@ -258,6 +259,8 @@ def tool_description():
     int_no = int(istr)
 
     for mo in range(0, int_no):
+        psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
+        atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
         mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
         MBHC[0][mo] = int(mstr)
         for lm in range(0, MBHC[0][mo]):
