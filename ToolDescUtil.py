@@ -166,6 +166,7 @@ def tool_description():
             R3T[it] = R3T[0]
             NTT[it] = NTT[0]
         else:
+
             print('Enter the antenna-recess diameter,')  # str5
             print('The coil diameter,')
             print('The collar diameter')
@@ -261,6 +262,8 @@ def tool_description():
     for mo in range(0, int_no):
         psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
         atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
+        mo[0] = str(psch)
+        mo[1] = str(atch)
         mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
         MBHC[0][mo] = int(mstr)
         for lm in range(0, MBHC[0][mo]):
@@ -269,6 +272,7 @@ def tool_description():
             MBHC[lm + 1][mo] = int(istr)
             istr = input('Enter the borehole-compensation weight: ')
             BHC[lm][mo] = float(istr)
+
 
     # Write the collected tool-description data to the output file:
     dstr = str(int_nt) + ', ' + str(int_nr) +', ' + str(int_nf) +  ', ' + str(int_nm) + ', ' + str(int_no)
