@@ -262,8 +262,8 @@ def tool_description():
     for mo in range(0, int_no):
         psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
         atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
-        mo[0] = str(psch)
-        mo[1] = str(atch)
+        #mo[0] = str(psch)
+        #mo[1] = str(atch)
         mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
         MBHC[0][mo] = int(mstr)
         for lm in range(0, MBHC[0][mo]):
