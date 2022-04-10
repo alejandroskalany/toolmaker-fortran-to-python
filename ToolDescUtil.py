@@ -21,7 +21,7 @@
 # define integer parameters
 NTMAX = 10
 NRMAX = 3
-NFMAX = 3
+NFMAX = 5
 NMMAX = 20
 NOMAX = 50
 
@@ -53,57 +53,23 @@ MBHC = [[0] * (NMMAX + 1)] * 10
 NTT = [0] * NTMAX
 NTR = [0] * NRMAX
 
-I = 0
-#it = 0
+# @@@I = 0
+# @@@it = 0
 J = 0
 JR = 0
 KF = 0
 LM = 0
 MO = 0
-NT = 0
-NR = 0
-NF = 0
+# @@@NT = 0
+# @@@NR = 0
+# @@@NF = 0
 NM = 0
 NO = 0
 
-# define output strings
-str1 = 'Enter the name of the service company:'
-str2 = 'Enter the tool name and size, such as ''ARC825'':'
-str3 = 'Choose your length scale (in - cm - mm:'
-str4 = 'Are all transmitter and receiver antennas identical? <YN>'
-str5 = 'Enter the antenna-recess diameter, the coil diameter and the collar diameter (Enter 0.0 for unknown antenna recess and coil diameters):'
-str6 = 'Enter the number of antenna-coil windings (enter 0, if not known:'
-str11 = 'How many transmitters does your tool have?'
-str12 = 'For transmitter enter the axial position:'
-str13 = 'How many receivers does your tool have?'
-str14 = 'For receiver enter the axial position:'
-str15 = 'How many operating frequencies does your tool have?'
-str16 = 'Enter the operating frequency (in kHz) and the three dielectric-estimate coefficients:'
-str21 = 'single-transmitter, raw-measurement modes, Indices for mode, T, R1, R2, Freq, Mode    T   R1   R2 Freq:'
-str23 = 'How many single-transmitter-measurement modes does the tool have?'
-str24 = 'For measurement mode enter the transmitter index, the near and far receiver indices and the frequency index:'
-str25 = 'How many borehole-compensated output modes does the tool have?'
-str26 = 'Output mode combines how many single-transmitter modes?'
-str27 = 'For output mode enter the index of single-transmitter mode and the borehole-compensation weight:'
-str28 = 'Enter the name of the phase-shift channel for output mode  1: (maximal eight characters)'
-str32 = 'Sonde description from 2016 SPWLA catalogue by No-Hidden-Pay 2021.'
-str41 = 'That''s all, folks!'
-
-# str22 = 5I5
-# str31 = A80
-# str33 = A2
-# str34 = A1
-# str35 = I3,F7.2,3F7.3,I3
-# str36 = I3,F7.1,3F7.2
-# str37 = 2I5,3X,A2
-# str38 = 10(I3,F7.2
-# str39 = 2I5,3X,A8
-
 CR = '\n'
 
+
 # ==============================================================================
-
-
 def tool_description():
     """
     :param: none
@@ -113,89 +79,99 @@ def tool_description():
     global R1R, R2R, R3R
 
     # Read the file-header information
-    header1 = ''
-    while len(header1) == 0:
-        header1 = input('Enter the name of the service company: ')    #str1
-    header2 = ''
-    while len(header2) == 0:
-        header2 = input('Enter the tool name and size, such as ''ARC825'': ')    # str2
+    header1 = input('Enter the name of the service company: ') or 'SLB'
+    print(header1)
+    header2 = input('Enter the tool name and size, such as ''ARC825'': ') or 'ARC825'
+    print(header2)
 
     # Prepare and open the sonde-description output file and write the header lines in there
     sonde_filename = header2 + '.sde'
     sonde_file = open(sonde_filename, 'wt')
     header_str = header1 + ' ' + header2 + '\n'
     sonde_file.write(header_str)
-    sonde_file.write('Sonde description from 2016 SPWLA catalogue by No-Hidden-Pay 2021.\n')    # str32
+    sonde_file.write('Sonde description from 2016 SPWLA catalogue by No-Hidden-Pay 2021.\n')
 
     # Enter length scale and other global tool information:
-    lscale = ""
-    while lscale != 'in' and lscale != 'cm' and lscale != 'mm':
-        lscale = input('Choose your length scale (in - cm - mm): ')    # str3
+    lscale = input('Choose your length scale (in - cm - mm): ') or 'in'
+    print(lscale)
 
     sonde_file.write(lscale)
     sonde_file.write(CR)
 
-    yn = input('Are all transmitter and receiver antennas identical? <YN> : ')    # str4
-    if yn.lower() == 'y':
-        print('Enter the antenna-recess diameter,')    # str5
+    yn = input('Are all transmitter and receiver antennas identical? <YN> : ') or 'Y'
+    print(yn)
+    yn = yn.lower()
+    if yn == 'y':
+        print('Enter the antenna-recess diameter,')
         print('The coil diameter,')
         print('The collar diameter')
         print('Enter 0.0 for unknown antenna recess and coil diameters): ')
-        R1T[0] = input('Antenna-recess diameter: ')
-        R2T[0] = input('The Coil Diameter: ')
-        R3T[0] = input('The Collar Diameter: ')
+        R1T[0] = input('Antenna-recess diameter: ') or '0.0'
+        print(R1T[0])
+        R2T[0] = input('The Coil Diameter: ') or '0'
+        print(R2T[0])
+        R3T[0] = input('The Collar Diameter: ') or '8.25'
+        print(R3T[0])
         if R1T[0] == 0.0:
             R1T[0] = R3T[0] - 0.5
         if R2T[0] == 0.0:
             R2T[0] = R3T[0] - 0.2
 
-        NTT[0] = input('Enter the number of antenna-coil windings (enter 0, if not known: ')    #str6
+        NTT[0] = input('Enter the number of antenna-coil windings (enter 0.0, if not known: ') or '8'
         if NTT[0] == 0.0:
             NTT[0] = 10
+        print(NTT[0])
 
-    NT = input('How many transmitters does your tool have?: ')    # str11
-    int_nt = int(NT)
+    nt = input('How many transmitters does your tool have?: ') or '5'
+    int_nt = int(nt)
+    print(int_nt)
 
     #   Read all transmitter information:
+    print("Enter these next values...")
     for it in range(0, int_nt):
-        istr = input('For transmitter ' + str(it + 1) + ' enter the axial position: ')  # str12
+        istr = input('For transmitter ' + str(it + 1) + ' enter the axial position: ')
         ZT[it] = float(istr)
-        if yn.lower() == 'y':
+        if yn == 'y':
             R1T[it] = R1T[0]
             R2T[it] = R2T[0]
             R3T[it] = R3T[0]
             NTT[it] = NTT[0]
         else:
-
-            print('Enter the antenna-recess diameter,')  # str5
+            print('Enter the antenna-recess diameter,')
             print('The coil diameter,')
             print('The collar diameter')
             print('Enter 0.0 for unknown antenna recess and coil diameters): ')
-            R1T[it] = input('Antenna-recess diameter: ')
-            R2T[it] = input('The Coil Diameter: ')
-            R3T[it] = input('The Collar Diameter: ')
+            R1T[it] = input('Antenna-recess diameter: ') or '0.0'
+            print(R1T[it])
+            R2T[it] = input('The Coil Diameter: ') or '0.0'
+            print(R2T[it])
+            R3T[it] = input('The Collar Diameter: ') or '8.25'
+            print(R3T[it])
             if R1T[it] == 0.0:
                 R1T[it] = R3T[it] - 0.5
             if R2T[it] == 0.0:
                 R2T[it] = R3T[it] - 0.2
-            NTT[it] = input('Enter the number of antenna-coil windings (enter 0, if not known): ')    #str6
+            NTT[it] = input('Enter the number of antenna-coil windings (enter 0, if not known): ') or '8'
+            print(NTT[it])
             if NTT[it] == 0.0:
                 NTT[it] = 10
 
-    NR = input('How many receivers does your tool have?: ')    # str13
-    int_nr = int(NR)
+    nr = input('How many receivers does your tool have?: ') or '2'
+    int_nr = int(nr)
+    print(int_nr)
 
     #   Read all receiver information:
+    print('Enter these next values...')
     for it in range(0, int_nr):
-        jstr = input('For receiver ' + str(it + 1) + ' enter the axial position: ')        # str14
+        jstr = input('For receiver ' + str(it + 1) + ' enter the axial position: ')
         ZR[it] = float(jstr)
-        if yn.lower() == 'y':
+        if yn == 'y':
             R1R[it] = R1R[0]
             R2R[it] = R2R[0]
             R3R[it] = R3R[0]
             NTR[it] = NTR[0]
         else:
-            print('Enter the antenna-recess diameter,')  # str5
+            print('Enter the antenna-recess diameter,')
             print('The coil diameter,')
             print('The collar diameter')
             print('Enter 0.0 for unknown antenna recess and coil diameters): ')
@@ -211,10 +187,11 @@ def tool_description():
                 NTR[it] = 10
 
     # Read all operating frequencies:
-    NF = input('How many operating frequencies does your tool have? :')     # str15
+    nf = input('How many operating frequencies does your tool have? :') or '2'
+    int_nf = int(nf)
+    print(int_nf)
 
-    int_nf = int(NF)
-
+    print('You must Enter these next values..')
     for kf in range(0, int_nf):
         FREQ[kf] = input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): ')
         EPS[kf][0] = input('Enter the dielectric-estimate coefficient 1 :')
@@ -229,20 +206,20 @@ def tool_description():
         for kf in range(0, int_nf):
             for it in range(0, int_nt):
                 q = it + (int_nt * kf)
-                #print(q)
-                MM[q][1] = it
+                # @@@print(q)
+                MM[q][0] = it
                 if ZT[it] > 0.0:
-                    MM[it + (int_nt * kf)][2] = 1
-                    MM[it + (int_nt * kf)][3] = 2
-                else:
+                    MM[it + (int_nt * kf)][1] = 1
                     MM[it + (int_nt * kf)][2] = 2
-                    MM[it + (int_nt * kf)][3] = 1
+                else:
+                    MM[it + (int_nt * kf)][1] = 2
+                    MM[it + (int_nt * kf)][2] = 1
 
-                MM[it + (int_nt * kf)][4] = kf
-                #print(it + (int_nt * kf), MM[it + (int_nt * kf)][0], MM[it + (int_nt * kf)][1], MM[it + (int_nt * kf)][2], MM[it + (int_nt * kf)][3])
+                MM[it + (int_nt * kf)][3] = kf + 1
+                print(it + (int_nt * kf) + 1, MM[it + (int_nt * kf)][0] + 1, MM[it + (int_nt * kf)][1], MM[it + (int_nt * kf)][2], MM[it + (int_nt * kf)][3])
     else:
-        NM = input('How many single-transmitter-measurement modes does the tool have? :')    # str23
-        int_nm = int(NM)
+        nm = input('How many single-transmitter-measurement modes does the tool have? :')    # str23
+        int_nm = int(nm)
 
         for lm in range(0, int_nm):
             print('For measurement mode ' + str(lm))
@@ -256,14 +233,15 @@ def tool_description():
             MM[lm][3] = int(istr)
 
     # Read the borehole-compensated output modes:
-    istr = input('How many borehole-compensated output modes does the tool have? :')
+    istr = input('How many borehole-compensated output modes does the tool have? :') or ' 10'
     int_no = int(istr)
+    print(int_no)
 
     for mo in range(0, int_no):
         psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
         atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
-        #mo[0] = str(psch)
-        #mo[1] = str(atch)
+        # @@@mo[0] = str(psch)
+        # @@@mo[1] = str(atch)
         mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
         MBHC[0][mo] = int(mstr)
         for lm in range(0, MBHC[0][mo]):
@@ -271,11 +249,10 @@ def tool_description():
             istr = input('Enter the index of single-transmitter mode : ')
             MBHC[lm + 1][mo] = int(istr)
             istr = input('Enter the borehole-compensation weight: ')
-            BHC[lm][mo] = float(istr)
-
+            BHC[lm][mo] = float(istr)  # @@@ index out of range
 
     # Write the collected tool-description data to the output file:
-    dstr = str(int_nt) + ', ' + str(int_nr) +', ' + str(int_nf) +  ', ' + str(int_nm) + ', ' + str(int_no)
+    dstr = str(int_nt) + ', ' + str(int_nr) + ', ' + str(int_nf) + ', ' + str(int_nm) + ', ' + str(int_no)
     sonde_file.write(dstr)
     for it in range(0, int_nt):
         dstr = str(it) + ', ' + str(ZT[it]) + ', ' + str(R1T[it]) + ', ' + str(R2T[it]) + ', ' + str(R3T[it]) + ', ' + str(NTT[it])
@@ -302,11 +279,9 @@ def tool_description():
 
     print('That''s all, folks!')
 
-
     sonde_file.close()
 
     return
-
 
 
 # ============================================================
