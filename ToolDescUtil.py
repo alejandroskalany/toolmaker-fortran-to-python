@@ -66,8 +66,7 @@ MO = 0
 NM = 0
 NO = 0
 
-CR = '\n'
-
+NO_EXECUTE = 0
 
 # ==============================================================================
 def tool_description():
@@ -77,6 +76,18 @@ def tool_description():
     """
     global r1t, r2t, r3t
     global r1r, r2r, r3r
+
+    # string float format
+    pt = -5.056789
+    pit = 10
+    s = str("{: 3.3f}".format(pt))
+    s += str("{:5}".format(pit))
+    print(s)
+    pt = 5.056789
+    pit = 100
+    s = str("{: 3.3f}".format(pt))
+    s += str("{:5}".format(pit))
+    print(s)
 
     # Read the file-header information
     header1 = input('Enter the name of the service company: ') or 'SLB'
@@ -96,7 +107,7 @@ def tool_description():
     print(lscale)
 
     sonde_file.write(lscale)
-    sonde_file.write(CR)
+    sonde_file.write('\n')
 
     yn = input('Are all transmitter and receiver antennas identical? <YN> : ') or 'Y'
     print(yn)
@@ -106,16 +117,17 @@ def tool_description():
         print('The coil diameter,')
         print('The collar diameter')
         print('Enter 0.0 for unknown antenna recess and coil diameters): ')
-        r1t[0] = input('Antenna-recess diameter: ') or '0.0'
+        r1t[0] = input('Antenna-recess diameter: ') or 0.0
         print(r1t[0])
-        r2t[0] = input('The Coil Diameter: ') or '0'
+        r2t[0] = input('The Coil Diameter: ') or 0.0
         print(r2t[0])
-        r3t[0] = input('The Collar Diameter: ') or '8.25'
+        r3t[0] = input('The Collar Diameter: ') or 8.25
         print(r3t[0])
         if r1t[0] == 0.0:
             r1t[0] = r3t[0] - 0.5
         if r2t[0] == 0.0:
             r2t[0] = r3t[0] - 0.2
+        print('r1t', r1t, 'r2t', r2t, 'r3t', r3t)
 
         ntt[0] = input('Enter the number of antenna-coil windings (enter 0.0, if not known: ') or '8'
         if ntt[0] == 0.0:
@@ -237,46 +249,66 @@ def tool_description():
     int_no = int(istr)
     print(int_no)
 
-    for mo in range(0, int_no):
-        psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
-        atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
-        # @@@mo[0] = str(psch)
-        # @@@mo[1] = str(atch)
-        mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
-        mbhc[0][mo] = int(mstr)
-
-        for lm in range(0, mbhc[0][mo]):
-            print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
-            istr = input('Enter the index of single-transmitter mode : ')
-            mbhc[lm + 1][mo] = int(istr)
-            istr = input('Enter the borehole-compensation weight: ')
-            bhc[lm][mo] = float(istr)  # @@@ index out of range
-
-    # Write the collected tool-description data to the output file:
+    # =============================================================
+    # Write the collected tool-description data to the output file
     dstr = str(int_nt) + ', ' + str(int_nr) + ', ' + str(int_nf) + ', ' + str(int_nm) + ', ' + str(int_no) + '\n'
     sonde_file.write(dstr)
     for it in range(0, int_nt):
-        dstr = str(it) + ', ' + str(ZT[it]) + ', ' + str(r1t[it]) + ', ' + str(r2t[it]) + ', ' + str(r3t[it]) + ', ' + str(ntt[it]) + '\n'
+        dstr = '  ' + str("{:3}".format(it)) + ', ' \
+                    + str("{: 3.3f}".format(ZT[it])) + ', ' \
+                    + str("{: 3.3f}".format(r1t[it])) + ', ' \
+                    + str("{: 3.3f}".format(r2t[it])) + ', ' \
+                    + str("{: 3.3f}".format(r3t[it])) + ', ' \
+                    + str("{:3}".format(ntt[it])) + ', ' \
+                    + '\n'
         sonde_file.write(dstr)
 
     for jr in range(0, int_nr):
-        dstr = str(jr) + ', ' + str(zr[jr]) + ', ' + str(r1r[jr]) + ', ' + str(r2r[jr]) + ', ' + str(r3r[jr]) + ', ' + str(ntr[jr]) + '\n'
+        dstr = '  ' + str("{:3}".format(jr)) + ', ' \
+                    + str("{: 3.3f}".format(zr[jr])) + ', ' \
+                    + str("{: 3.3f}".format(r1r[jr])) + ', ' \
+                    + str("{: 3.3f}".format(r2r[jr])) + ', ' \
+                    + str("{: 3.3f}".format(r3r[jr])) + ', ' \
+                    + str("{:3}".format(ntr[jr])) + ', ' \
+                    + '\n'
         sonde_file.write(dstr)
 
     for kf in range(0, int_nf):
-        dstr = str(kf) + ', ' + str(freq[kf]) + ', ' + str(eps[kf][0]) + ', ' + str(eps[kf][1]) + ', ' + str(eps[kf][2]) + '\n'
+        dstr = '  ' + str("{:3}".format(kf)) + ', ' \
+                    + str("{: 4.1f}".format(freq[kf])) + ', ' \
+                    + str("{: 3.2f}".format(eps[kf][0])) + ', ' \
+                    + str("{: 3.2f}".format(eps[kf][1])) + ', ' \
+                    + str("{: 3.2f}".format(eps[kf][2])) + ', ' \
+                    + '\n'
         sonde_file.write(dstr)
 
-    for lm in range(0, int_nm):
-        dstr = str(lm) + ', ' + str(mm[lm][0]) + ', ' + str(mm[lm][1]) + ', ' + str(mm[lm][2]) + ', ' + str(mm[lm][3]) + '\n'
-        sonde_file.write(dstr)
+    if NO_EXECUTE:
+        for mo in range(0, int_no):
+            psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
+            atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
+            # @@@mo[0] = str(psch)
+            # @@@mo[1] = str(atch)
+            mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
+            mbhc[0][mo] = int(mstr)
 
-    for mo in range(0, int_no):
-        dstr = str(mo) + ', ' + str(mbhc[0][mo]) + 'PS + iAT' + '\n'
-        sonde_file.write(dstr)
+            for lm in range(0, mbhc[0][mo]):
+                print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
+                istr = input('Enter the index of single-transmitter mode : ')
+                mbhc[lm + 1][mo] = int(istr)
+                istr = input('Enter the borehole-compensation weight: ')
+                bhc[lm][mo] = float(istr)  # @@@ index out of range
 
-        dstr = str(mbhc[1][mo]) + ', ' + str(bhc[0][mo]) + ', ' + str(mbhc[0][mo]) + '\n'
-        sonde_file.write(dstr)
+        # Write the collected tool-description data to the output file:
+        for lm in range(0, int_nm):
+            dstr = str(lm) + ', ' + str(mm[lm][0]) + ', ' + str(mm[lm][1]) + ', ' + str(mm[lm][2]) + ', ' + str(mm[lm][3]) + '\n'
+            sonde_file.write(dstr)
+
+        for mo in range(0, int_no):
+            dstr = str(mo) + ', ' + str(mbhc[0][mo]) + 'PS + iAT' + '\n'
+            sonde_file.write(dstr)
+
+            dstr = str(mbhc[1][mo]) + ', ' + str(bhc[0][mo]) + ', ' + str(mbhc[0][mo]) + '\n'
+            sonde_file.write(dstr)
 
     sonde_file.close()
 
