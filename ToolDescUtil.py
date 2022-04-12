@@ -275,10 +275,10 @@ def tool_description():
 
     for kf in range(0, int_nf):
         dstr = '  ' + str("{:3}".format(kf)) + ', ' \
-                    + str("{: 4.1f}".format(freq[kf])) + ', ' \
-                    + str("{: 3.2f}".format(eps[kf][0])) + ', ' \
-                    + str("{: 3.2f}".format(eps[kf][1])) + ', ' \
-                    + str("{: 3.2f}".format(eps[kf][2])) + ', ' \
+                    + str("{: 4.1f}".format(float(freq[kf]))) + ', ' \
+                    + str("{: 3.2f}".format(float(eps[kf][0]))) + ', ' \
+                    + str("{: 3.2f}".format(float(eps[kf][1]))) + ', ' \
+                    + str("{: 3.2f}".format(float(eps[kf][2]))) + ', ' \
                     + '\n'
         sonde_file.write(dstr)
 
