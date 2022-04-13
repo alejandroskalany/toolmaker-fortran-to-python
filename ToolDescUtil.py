@@ -34,7 +34,7 @@ LSCALE = ""
 YN = ""
 
 # define float point array parameters
-ZT = [0.0] * NTMAX
+zt = [0.0] * NTMAX
 r1t = [0.0] * NTMAX
 r2t = [0.0] * NTMAX
 r3t = [0.0] * NTMAX
@@ -110,39 +110,42 @@ def tool_description():
     sonde_file.write('\n')
 
     yn = input('Are all transmitter and receiver antennas identical? <YN> : ') or 'Y'
-    print(yn)
     yn = yn.lower()
+    print(yn)
     if yn == 'y':
         print('Enter the antenna-recess diameter,')
         print('The coil diameter,')
         print('The collar diameter')
         print('Enter 0.0 for unknown antenna recess and coil diameters): ')
-        r1t[0] = input('Antenna-recess diameter: ') or 0.0
+        fstr = input('Antenna-recess diameter: ') or 0.0
+        r1t[0] = float(fstr)
         print(r1t[0])
-        r2t[0] = input('The Coil Diameter: ') or 0.0
+        fstr = input('The Coil Diameter: ') or 0.0
+        r2t[0] = float(fstr)
         print(r2t[0])
-        r3t[0] = input('The Collar Diameter: ') or 8.25
+        fstr = input('The Collar Diameter: ') or 8.25
+        r3t[0] = float(fstr)
         print(r3t[0])
         if r1t[0] == 0.0:
             r1t[0] = r3t[0] - 0.5
         if r2t[0] == 0.0:
             r2t[0] = r3t[0] - 0.2
-        print('r1t', r1t, 'r2t', r2t, 'r3t', r3t)
 
-        ntt[0] = input('Enter the number of antenna-coil windings (enter 0.0, if not known: ') or '8'
+        fstr = input('Enter the number of antenna-coil windings (enter 0.0, if not known: ') or 8.0
+        ntt[0] = int(fstr)
         if ntt[0] == 0.0:
             ntt[0] = 10
         print(ntt[0])
 
-    nt = input('How many transmitters does your tool have?: ') or '5'
-    int_nt = int(nt)
+    istr = input('How many transmitters does your tool have?: ') or 5
+    int_nt = int(istr)
     print(int_nt)
 
     #   Read all transmitter information:
     print("Enter these next values...")
     for it in range(0, int_nt):
-        istr = input('For transmitter ' + str(it + 1) + ' enter the axial position: ')
-        ZT[it] = float(istr)
+        fstr = input('For transmitter ' + str(it + 1) + ' enter the axial position: ')
+        zt[it] = float(fstr)
         if yn == 'y':
             r1t[it] = r1t[0]
             r2t[it] = r2t[0]
@@ -153,22 +156,26 @@ def tool_description():
             print('The coil diameter,')
             print('The collar diameter')
             print('Enter 0.0 for unknown antenna recess and coil diameters): ')
-            r1t[it] = input('Antenna-recess diameter: ') or '0.0'
+            fstr = input('Antenna-recess diameter: ') or 0.0
+            r1t[it] = float(fstr)
             print(r1t[it])
-            r2t[it] = input('The Coil Diameter: ') or '0.0'
+            fstr = input('The Coil Diameter: ') or 0.0
+            r2t[it] = float(fstr)
             print(r2t[it])
-            r3t[it] = input('The Collar Diameter: ') or '8.25'
+            fstr = input('The Collar Diameter: ') or 8.25
+            r3t[it] = float(fstr)
             print(r3t[it])
             if r1t[it] == 0.0:
                 r1t[it] = r3t[it] - 0.5
             if r2t[it] == 0.0:
                 r2t[it] = r3t[it] - 0.2
-            ntt[it] = input('Enter the number of antenna-coil windings (enter 0, if not known): ') or '8'
+            istr = input('Enter the number of antenna-coil windings (enter 0, if not known): ') or 8
+            ntt[it] = int(istr)
             print(ntt[it])
             if ntt[it] == 0.0:
                 ntt[it] = 10
 
-    nr = input('How many receivers does your tool have?: ') or '2'
+    nr = input('How many receivers does your tool have?: ') or 2
     int_nr = int(nr)
     print(int_nr)
 
@@ -187,9 +194,12 @@ def tool_description():
             print('The coil diameter,')
             print('The collar diameter')
             print('Enter 0.0 for unknown antenna recess and coil diameters): ')
-            r1r[it] = input('Antenna-recess diameter: ')
-            r2r[it] = input('The Coil Diameter: ')
-            r3r[it] = input('The Collar Diameter: ')
+            fstr = input('Antenna-recess diameter: ')
+            r1r[it] = float(fstr)
+            fstr = input('The Coil Diameter: ')
+            r2r[it] = float(fstr)
+            fstr = input('The Collar Diameter: ')
+            r3r[it] = float(fstr)
             if r1r[it] == 0.0:
                 r1r[it] = r3r[it] - 0.5
             if r2r[it] == 0.0:
@@ -199,16 +209,19 @@ def tool_description():
                 ntr[it] = 10
 
     # Read all operating frequencies:
-    nf = input('How many operating frequencies does your tool have? :') or '2'
+    nf = input('How many operating frequencies does your tool have? :') or 2
     int_nf = int(nf)
     print(int_nf)
 
     print('You must Enter these next values..')
     for kf in range(0, int_nf):
         freq[kf] = input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): ')
-        eps[kf][0] = input('Enter the dielectric-estimate coefficient 1 :')
-        eps[kf][1] = input('Enter the dielectric-estimate coefficient 2 :')
-        eps[kf][2] = input('Enter the dielectric-estimate coefficient 3 :')
+        fstr = input('Enter the dielectric-estimate coefficient 1 :')
+        eps[kf][0] = float(fstr)
+        fstr = input('Enter the dielectric-estimate coefficient 2 :')
+        eps[kf][1] = float(fstr)
+        fstr = input('Enter the dielectric-estimate coefficient 3 :')
+        eps[kf][2] = float(fstr)
 
     # Read the single-transmitter - single-frequency raw-measurement modes:
     if int_nr == 2:
@@ -220,7 +233,7 @@ def tool_description():
                 q = it + (int_nt * kf)
                 # @@@print(q)
                 mm[q][0] = it
-                if ZT[it] > 0.0:
+                if zt[it] > 0.0:
                     mm[it + (int_nt * kf)][1] = 1
                     mm[it + (int_nt * kf)][2] = 2
                 else:
@@ -245,42 +258,45 @@ def tool_description():
             mm[lm][3] = int(istr)
 
     # Read the borehole-compensated output modes:
-    istr = input('How many borehole-compensated output modes does the tool have? :') or ' 10'
+    istr = input('How many borehole-compensated output modes does the tool have? :') or 10
     int_no = int(istr)
     print(int_no)
 
     # =============================================================
     # Write the collected tool-description data to the output file
-    dstr = str(int_nt) + ', ' + str(int_nr) + ', ' + str(int_nf) + ', ' + str(int_nm) + ', ' + str(int_no) + '\n'
+    dstr = '      ' + str(int_nt) + ', ' + str(int_nr) + ', ' + str(int_nf) + ', ' + str(int_nm) + ', ' + str(int_no) + '\n'
     sonde_file.write(dstr)
     for it in range(0, int_nt):
-        dstr = '  ' + str("{:3}".format(it)) + ', ' \
-                    + str("{: 3.3f}".format(ZT[it])) + ', ' \
-                    + str("{: 3.3f}".format(r1t[it])) + ', ' \
-                    + str("{: 3.3f}".format(r2t[it])) + ', ' \
-                    + str("{: 3.3f}".format(r3t[it])) + ', ' \
-                    + str("{:3}".format(ntt[it])) + ', ' \
-                    + '\n'
+        dstr = '  ' + str("{:3}".format(it + 1)) + ', ' \
+               + str("{: 4.3f}".format(zt[it])) + ', ' \
+               + str("{: 4.3f}".format(r1t[it])) + ', ' \
+               + str("{: 4.3f}".format(r2t[it])) + ', ' \
+               + str("{: 4.3f}".format(r3t[it])) + ', ' \
+               + str("{:3}".format(ntt[it])) + ', ' \
+               + '\n'
         sonde_file.write(dstr)
 
     for jr in range(0, int_nr):
-        dstr = '  ' + str("{:3}".format(jr)) + ', ' \
-                    + str("{: 3.3f}".format(zr[jr])) + ', ' \
-                    + str("{: 3.3f}".format(r1r[jr])) + ', ' \
-                    + str("{: 3.3f}".format(r2r[jr])) + ', ' \
-                    + str("{: 3.3f}".format(r3r[jr])) + ', ' \
+        dstr = '  ' + str("{:3}".format(jr + 1)) + ', ' \
+                    + str("{: 4.3f}".format(zr[jr])) + ', ' \
+                    + str("{: 4.3f}".format(r1r[jr])) + ', ' \
+                    + str("{: 4.3f}".format(r2r[jr])) + ', ' \
+                    + str("{: 4.3f}".format(r3r[jr])) + ', ' \
                     + str("{:3}".format(ntr[jr])) + ', ' \
                     + '\n'
         sonde_file.write(dstr)
 
     for kf in range(0, int_nf):
-        dstr = '  ' + str("{:3}".format(kf)) + ', ' \
+        dstr = '  ' + str("{:3}".format(kf + 1)) + ', ' \
                     + str("{: 4.1f}".format(float(freq[kf]))) + ', ' \
-                    + str("{: 3.2f}".format(float(eps[kf][0]))) + ', ' \
-                    + str("{: 3.2f}".format(float(eps[kf][1]))) + ', ' \
-                    + str("{: 3.2f}".format(float(eps[kf][2]))) + ', ' \
+                    + str("{: 4.2f}".format(float(eps[kf][0]))) + ', ' \
+                    + str("{: 4.2f}".format(float(eps[kf][1]))) + ', ' \
+                    + str("{: 4.2f}".format(float(eps[kf][2]))) + ', ' \
                     + '\n'
         sonde_file.write(dstr)
+
+    dstr = "peter-1\n"
+    sonde_file.write(dstr)
 
     if NO_EXECUTE:
         for mo in range(0, int_no):
