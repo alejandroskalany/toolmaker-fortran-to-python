@@ -26,47 +26,27 @@ NFMAX = 5
 NMMAX = 20
 NOMAX = 50
 
-# define string parameters
-FILOUT = ""
-HEADER1 = ""
-HEADER2 = ""
-LSCALE = ""
-YN = ""
-
 # define float point array parameters
-zt = [0.0] * NTMAX
-r1t = [0.0] * NTMAX
-r2t = [0.0] * NTMAX
-r3t = [0.0] * NTMAX
+zt = [0.0 for i in range(NTMAX)]
+r1t = [0.0 for i in range(NTMAX)]
+r2t = [0.0 for i in range(NTMAX)]
+r3t = [0.0 for i in range(NTMAX)]
 
-zr = [0.0] * NRMAX
-r1r = [0.0] * NRMAX
-r2r = [0.0] * NRMAX
-r3r = [0.0] * NRMAX
+zr = [0.0 for i in range(NRMAX)]
+r1r = [0.0 for i in range(NRMAX)]
+r2r = [0.0 for i in range(NRMAX)]
+r3r = [0.0 for i in range(NRMAX)]
 
 freq = [0.0] * NFMAX
-eps = [[0.0] * NTMAX] * NFMAX
-bhc = [[0.0] * NTMAX] * NFMAX
+eps = [[0.0 for i in range(NTMAX)] for j in range(NFMAX)]
+bhc = [[0.0 for i in range(NTMAX)] for j in range(NFMAX)]
 
-mm = [[0] * NMMAX] * NTMAX
-mbhc = [[0] * (NMMAX + 1)] * (NTMAX * NRMAX)
-ntt = [0] * NTMAX
-ntr = [0] * NRMAX
+mm = [[0 for i in range(NMMAX)] for j in range(NTMAX)]
+mbhc = [[0 for i in range(NMMAX + 1)] for j in range(NTMAX * NRMAX)]
+ntt = [0 for i in range(NTMAX)]
+ntr = [0 for i in range(NRMAX)]
+chan_name = [[' ' for i in range(2)] for j in range(NMMAX)]
 
-# @@@I = 0
-# @@@it = 0
-J = 0
-JR = 0
-KF = 0
-LM = 0
-MO = 0
-# @@@NT = 0
-# @@@NR = 0
-# @@@NF = 0
-NM = 0
-NO = 0
-
-NO_EXECUTE = 0
 
 # ==============================================================================
 def tool_description():
@@ -74,8 +54,8 @@ def tool_description():
     :param: none
     :return: none
     """
-    global r1t, r2t, r3t
-    global r1r, r2r, r3r
+    global zt, r1t, r2t, r3t, zr, r1r, r2r, r3r
+    global freq, eps, bhc
 
     # string float format
     pt = -5.056789
@@ -88,6 +68,9 @@ def tool_description():
     s = str("{: 3.3f}".format(pt))
     s += str("{:5}".format(pit))
     print(s)
+    chan_name[2][0] = 'PS16L'
+    chan_name[2][1] = 'AT16L'
+    print(chan_name)
 
     # Read the file-header information
     header1 = input('Enter the name of the service company: ') or 'SLB'
@@ -185,10 +168,10 @@ def tool_description():
         jstr = input('For receiver ' + str(it + 1) + ' enter the axial position: ')
         zr[it] = float(jstr)
         if yn == 'y':
-            r1r[it] = r1r[0]
-            r2r[it] = r2r[0]
-            r3r[it] = r3r[0]
-            ntr[it] = ntr[0]
+            r1r[it] = r1t[0]
+            r2r[it] = r2t[0]
+            r3r[it] = r3t[0]
+            ntr[it] = ntt[0]
         else:
             print('Enter the antenna-recess diameter,')
             print('The coil diameter,')
@@ -204,18 +187,20 @@ def tool_description():
                 r1r[it] = r3r[it] - 0.5
             if r2r[it] == 0.0:
                 r2r[it] = r3r[it] - 0.2
-            ntr[it] = input('Enter the number of antenna-coil windings (enter 0, if not known: ')    # str6
+            istr = input('Enter the number of antenna-coil windings (enter 0, if not known: ')
+            ntr[it] = int(istr)
             if ntr[it] == 0.0:
                 ntr[it] = 10
 
     # Read all operating frequencies:
-    nf = input('How many operating frequencies does your tool have? :') or 2
-    int_nf = int(nf)
+    istr = input('How many operating frequencies does your tool have? :') or 2
+    int_nf = int(istr)
     print(int_nf)
 
     print('You must Enter these next values..')
     for kf in range(0, int_nf):
-        freq[kf] = input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): ')
+        fstr = input('Enter the operating frequency ' + str(kf + 1) + ' in kHz): ')
+        freq[kf] = float(fstr)
         fstr = input('Enter the dielectric-estimate coefficient 1 :')
         eps[kf][0] = float(fstr)
         fstr = input('Enter the dielectric-estimate coefficient 2 :')
@@ -223,10 +208,12 @@ def tool_description():
         fstr = input('Enter the dielectric-estimate coefficient 3 :')
         eps[kf][2] = float(fstr)
 
+    print(eps)
+
     # Read the single-transmitter - single-frequency raw-measurement modes:
     if int_nr == 2:
         int_nm = int_nt * int_nf
-        print('single-transmitter, raw-measurement modes, Indices for mode, T, R1, R2, Freq, Mode    T   R1   R2 Freq:')    # str21
+        print('single-transmitter, raw-measurement modes, Indices for mode, T, R1, R2, Freq, Mode    T   R1   R2 Freq:')
 
         for kf in range(0, int_nf):
             for it in range(0, int_nt):
@@ -241,7 +228,6 @@ def tool_description():
                     mm[it + (int_nt * kf)][2] = 1
 
                 mm[it + (int_nt * kf)][3] = kf + 1
-                print(it + (int_nt * kf) + 1, mm[it + (int_nt * kf)][0] + 1, mm[it + (int_nt * kf)][1], mm[it + (int_nt * kf)][2], mm[it + (int_nt * kf)][3])
     else:
         nm = input('How many single-transmitter-measurement modes does the tool have? :')    # str23
         int_nm = int(nm)
@@ -264,7 +250,11 @@ def tool_description():
 
     # =============================================================
     # Write the collected tool-description data to the output file
-    dstr = '      ' + str(int_nt) + ', ' + str(int_nr) + ', ' + str(int_nf) + ', ' + str(int_nm) + ', ' + str(int_no) + '\n'
+    dstr = '      ' + str(int_nt) + ', ' \
+                    + str(int_nr) + ', ' \
+                    + str(int_nf) + ', ' \
+                    + str(int_nm) + ', ' \
+                    + str(int_no) + '\n'
     sonde_file.write(dstr)
     for it in range(0, int_nt):
         dstr = '  ' + str("{:3}".format(it + 1)) + ', ' \
@@ -278,7 +268,7 @@ def tool_description():
 
     for jr in range(0, int_nr):
         dstr = '  ' + str("{:3}".format(jr + 1)) + ', ' \
-                    + str("{: 4.3f}".format(zr[jr])) + ', ' \
+                    + str("{: 4.4f}".format(zr[jr])) + ', ' \
                     + str("{: 4.3f}".format(r1r[jr])) + ', ' \
                     + str("{: 4.3f}".format(r2r[jr])) + ', ' \
                     + str("{: 4.3f}".format(r3r[jr])) + ', ' \
@@ -288,43 +278,44 @@ def tool_description():
 
     for kf in range(0, int_nf):
         dstr = '  ' + str("{:3}".format(kf + 1)) + ', ' \
-                    + str("{: 4.1f}".format(float(freq[kf]))) + ', ' \
+                    + str("{: 5.2f}".format(float(freq[kf]))) + ', ' \
                     + str("{: 4.2f}".format(float(eps[kf][0]))) + ', ' \
                     + str("{: 4.2f}".format(float(eps[kf][1]))) + ', ' \
                     + str("{: 4.2f}".format(float(eps[kf][2]))) + ', ' \
                     + '\n'
         sonde_file.write(dstr)
 
-    dstr = "peter-1\n"
-    sonde_file.write(dstr)
+    for lm in range(0, int_nm):
+        dstr = '  ' + str("{:3}".format(lm + 1)) + ', ' \
+                    + str("{:3}".format(mm[lm][0] + 1)) + ', ' \
+                    + str("{:3}".format(mm[lm][1])) + ', ' \
+                    + str("{:3}".format(mm[lm][2])) + ', ' \
+                    + str("{:3}".format(mm[lm][3])) + ', ' \
+                    + '\n'
+        sonde_file.write(dstr)
 
-    if NO_EXECUTE:
-        for mo in range(0, int_no):
-            psch = input('Enter the name of the phase-shift channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
-            atch = input('Enter the name of the attenuation channel for output mode ' + str(mo + 1) + ' (maximal eight characters):')
-            # @@@mo[0] = str(psch)
-            # @@@mo[1] = str(atch)
-            mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
-            mbhc[0][mo] = int(mstr)
+    for mo in range(0, int_no):
+        psch = input('Enter name of phase-shift channel for output mode ' + str(mo + 1) + ' (max 8 characters):')
+        atch = input('Enter name of attenuation channel for output mode ' + str(mo + 1) + ' (max 8 characters):')
+        chan_name[mo][0] = str(psch)
+        chan_name[mo][1] = str(atch)
+        mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
+        mbhc[0][mo] = int(mstr)
 
-            for lm in range(0, mbhc[0][mo]):
-                print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
-                istr = input('Enter the index of single-transmitter mode : ')
-                mbhc[lm + 1][mo] = int(istr)
-                istr = input('Enter the borehole-compensation weight: ')
-                bhc[lm][mo] = float(istr)  # @@@ index out of range
+        for lm in range(0, mbhc[0][mo]):
+            print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
+            istr = input('Enter the index of single-transmitter mode : ')
+            mbhc[lm + 1][mo] = int(istr)
+            istr = input('Enter the borehole-compensation weight: ')
+            bhc[lm][mo] = float(istr)
 
-        # Write the collected tool-description data to the output file:
-        for lm in range(0, int_nm):
-            dstr = str(lm) + ', ' + str(mm[lm][0]) + ', ' + str(mm[lm][1]) + ', ' + str(mm[lm][2]) + ', ' + str(mm[lm][3]) + '\n'
-            sonde_file.write(dstr)
+    # Write the collected tool-description data to the output file:
+    for mo in range(0, int_no):
+        dstr = str(mo) + ', ' + str(mbhc[0][mo]) + 'PS + iAT' + '\n'
+        sonde_file.write(dstr)
 
-        for mo in range(0, int_no):
-            dstr = str(mo) + ', ' + str(mbhc[0][mo]) + 'PS + iAT' + '\n'
-            sonde_file.write(dstr)
-
-            dstr = str(mbhc[1][mo]) + ', ' + str(bhc[0][mo]) + ', ' + str(mbhc[0][mo]) + '\n'
-            sonde_file.write(dstr)
+        dstr = str(mbhc[1][mo]) + ', ' + str(bhc[0][mo]) + ', ' + str(mbhc[0][mo]) + '\n'
+        sonde_file.write(dstr)
 
     sonde_file.close()
 
