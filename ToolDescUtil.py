@@ -59,21 +59,6 @@ def tool_description():
     global zt, r1t, r2t, r3t, zr, r1r, r2r, r3r
     global freq, eps, bhc
 
-    # string float format
-    pt = -5.056789
-    pit = 10
-    s = str("{: 3.3f}".format(pt))
-    s += str("{:5}".format(pit))
-    print(s)
-    pt = 5.056789
-    pit = 100
-    s = str("{: 3.3f}".format(pt))
-    s += str("{:5}".format(pit))
-    print(s)
-    chan_name[2][0] = 'PS16L'
-    chan_name[2][1] = 'AT16L'
-    print(chan_name)
-
     # Read the file-header information
     header1 = input('Enter the name of the service company: ') or 'SLB'
     print(header1)
@@ -210,27 +195,30 @@ def tool_description():
         fstr = input('Enter the dielectric-estimate coefficient 3 :')
         eps[kf][2] = float(fstr)
 
-    print(eps)
-
     # Read the single-transmitter - single-frequency raw-measurement modes:
     if int_nr == 2:
         int_nm = int_nt * int_nf
-        print('single-transmitter, raw-measurement modes, Indices for mode, T, R1, R2, Freq, Mode    T   R1   R2 Freq:')
-
+        print(str(int_nm) + ' single-transmitter, raw-measurement modes:')
+        print('Indices for mode, T, R1, R2, Freq')
+        print(' Mode  T  R1  R2 Freq')
         for kf in range(0, int_nf):
             for it in range(0, int_nt):
                 q = it + (int_nt * kf)
-                # @@@print(q)
-                mm[q][0] = it
                 if zt[it] > 0.0:
-                    mm[it + (int_nt * kf)][1] = 1
-                    mm[it + (int_nt * kf)][2] = 2
+                    mm_a = 1
+                    mm_b = 2
                 else:
-                    mm[it + (int_nt * kf)][1] = 2
-                    mm[it + (int_nt * kf)][2] = 1
+                    mm_a = 2
+                    mm_b = 1
 
                 mm[it + (int_nt * kf)][3] = kf + 1
+                print(' ' + str("{:3}".format(q + 1)) + ' ' \
+                          + str("{:3}".format(it + 1)) + ' ' \
+                          + str("{:3}".format(mm_a)) + ' ' \
+                          + str("{:3}".format(mm_b)) + ' ' \
+                          + str("{:3}".format(kf + 1)))
     else:
+        # NOTE THIS ELSE HAS NOT BEEN CHECKED YET
         nm = input('How many single-transmitter-measurement modes does the tool have? :')    # str23
         int_nm = int(nm)
 
@@ -303,23 +291,22 @@ def tool_description():
         chan_name[mo][1] = str(atch)
         mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
         mbhc[0][mo] = int(mstr)
-        dstr = '    ' + str(mo + 1) + ', ' \
-                      + str(mbhc[0][mo]) + ', ' \
+        dstr = '    ' + str("{:3}".format(mo + 1)) + ', ' \
+                      + str("{:3}".format(mbhc[0][mo])) + ', ' \
                       + chan_name[mo][0] + ', ' \
                       + chan_name[mo][1] \
                       + '\n'
         sonde_file.write(dstr)
 
-    if NO_EXECUTE:
+        dstr = '    '
         for lm in range(0, mbhc[0][mo]):
             print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
             istr = input('Enter the index of single-transmitter mode : ')
             mbhc[lm + 1][mo] = int(istr)
             istr = input('Enter the borehole-compensation weight: ')
             bhc[lm][mo] = float(istr)
-
-
-        dstr = str(mbhc[1][mo]) + ', ' + str(bhc[0][mo]) + ', ' + str(mbhc[0][mo]) + '\n'
+            dstr += str(mbhc[lm + 1][mo]) + ', ' + str(bhc[lm][mo]) + ', '
+        dstr += '\n'
         sonde_file.write(dstr)
 
     sonde_file.close()
