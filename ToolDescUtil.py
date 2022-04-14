@@ -47,6 +47,8 @@ ntt = [0 for i in range(NTMAX)]
 ntr = [0 for i in range(NRMAX)]
 chan_name = [[' ' for i in range(2)] for j in range(NMMAX)]
 
+NO_EXECUTE = 0
+
 
 # ==============================================================================
 def tool_description():
@@ -301,7 +303,14 @@ def tool_description():
         chan_name[mo][1] = str(atch)
         mstr = input('Output mode ' + str(mo + 1) + ' combines how many single-transmitter modes? :')
         mbhc[0][mo] = int(mstr)
+        dstr = '    ' + str(mo + 1) + ', ' \
+                      + str(mbhc[0][mo]) + ', ' \
+                      + chan_name[mo][0] + ', ' \
+                      + chan_name[mo][1] \
+                      + '\n'
+        sonde_file.write(dstr)
 
+    if NO_EXECUTE:
         for lm in range(0, mbhc[0][mo]):
             print('For output mode ' + str(mo + 1) + ' : ' + str(lm + 1))
             istr = input('Enter the index of single-transmitter mode : ')
@@ -309,10 +318,6 @@ def tool_description():
             istr = input('Enter the borehole-compensation weight: ')
             bhc[lm][mo] = float(istr)
 
-    # Write the collected tool-description data to the output file:
-    for mo in range(0, int_no):
-        dstr = str(mo) + ', ' + str(mbhc[0][mo]) + 'PS + iAT' + '\n'
-        sonde_file.write(dstr)
 
         dstr = str(mbhc[1][mo]) + ', ' + str(bhc[0][mo]) + ', ' + str(mbhc[0][mo]) + '\n'
         sonde_file.write(dstr)
