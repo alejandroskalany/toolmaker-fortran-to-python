@@ -51,6 +51,17 @@ NO_EXECUTE = 0
 
 
 # ==============================================================================
+class Sonde:
+    def __init__(self, company, toolname, units, txrx_ident, ant_recess_dia):
+        self.company = company
+        self.toolname = toolname
+        self.description = 'Sonde description from 2016 SPWLA catalogue by No-Hidden-Pay 2022'
+        self.units = units      # in or cm or mm
+        self.txrx_ident = txrx_ident
+        self.ant_recess_dia = ant_recess_dia
+
+
+# ==============================================================================
 def tool_description():
     """
     :param: none
